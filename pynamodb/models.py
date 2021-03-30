@@ -590,7 +590,7 @@ class Model(AttributeContainer, metaclass=MetaModel):
 
         # If this class has a discriminator attribute, filter the query to only return instances of this class.
         discriminator_attr = cls._get_discriminator_attribute()
-        if discriminator_attr:
+        if discriminator_attr and not discriminator_attr.attr_name in [str(value) for value in range_key_condition.values]:
             filter_condition &= discriminator_attr.is_in(*discriminator_attr.get_registered_subclasses(cls))
 
         query_args = (hash_key,)
@@ -657,7 +657,7 @@ class Model(AttributeContainer, metaclass=MetaModel):
 
         # If this class has a discriminator attribute, filter the query to only return instances of this class.
         discriminator_attr = cls._get_discriminator_attribute()
-        if discriminator_attr:
+        if discriminator_attr and not discriminator_attr.attr_name in [str(value) for value in range_key_condition.values]:
             filter_condition &= discriminator_attr.is_in(*discriminator_attr.get_registered_subclasses(cls))
 
         if page_size is None:
